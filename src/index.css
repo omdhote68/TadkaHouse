@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-white/5;
+  }
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    @apply bg-ink-base text-white font-body antialiased;
+    overflow-x: hidden;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+  ::selection {
+    @apply bg-gold/30 text-white;
+  }
+}
+
+@layer components {
+  .glass {
+    @apply bg-white/[0.03] backdrop-blur-xl border border-white/10;
+  }
+  .glass-card {
+    @apply bg-ink-card/60 backdrop-blur-xl border border-white/[0.06] rounded-2xl;
+  }
+  .gold-text {
+    @apply bg-clip-text text-transparent bg-gold-gradient bg-[length:200%_auto] animate-shimmer;
+  }
+  .btn-gold {
+    @apply relative inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-gold-gradient text-ink-base font-medium tracking-wide overflow-hidden transition-all duration-500 hover:shadow-[0_0_40px_rgba(212,175,55,0.4)] hover:scale-[1.02];
+  }
+  .btn-outline {
+    @apply relative inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full border border-gold/40 text-gold font-medium tracking-wide transition-all duration-500 hover:bg-gold hover:text-ink-base hover:shadow-[0_0_40px_rgba(212,175,55,0.3)];
+  }
+  .section-pad {
+    @apply px-6 md:px-12 lg:px-20 xl:px-28;
+  }
+  .eyebrow {
+    @apply text-xs md:text-sm uppercase tracking-luxe text-gold/80 font-medium;
+  }
+  .heading-xl {
+    @apply font-display text-4xl md:text-6xl lg:text-7xl leading-[1.05] font-medium;
+  }
+  .heading-lg {
+    @apply font-display text-3xl md:text-5xl lg:text-6xl leading-[1.1] font-medium;
+  }
+  .heading-md {
+    @apply font-display text-2xl md:text-4xl leading-tight font-medium;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0E0E0E;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #D4AF37, #C88A3D);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #D4AF37;
+}
+
+/* Noise overlay */
+.noise-overlay::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  opacity: 0.035;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: overlay;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Hide default cursor on desktop for custom cursor */
+@media (hover: hover) and (pointer: fine) {
+  .custom-cursor-active * {
+    cursor: none !important;
+  }
+}
