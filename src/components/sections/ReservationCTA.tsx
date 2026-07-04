@@ -1,65 +1,124 @@
-import { Link } from 'react-router-dom';
-import { Calendar, Clock, Users, Phone } from 'lucide-react';
-import Reveal from '../Reveal';
-import { RESTAURANT } from '../../data/content';
+import { useState } from "react";
+import { Calendar, Clock, Users, Phone, User } from "lucide-react";
 
-export default function ReservationCTA() {
+export default function Reservations() {
+  const [form, setForm] = useState({
+    name: "",
+    phone: "",
+    date: "",
+    time: "",
+    guests: "2",
+    message: "",
+  });
+
+  const submit = () => {
+    const text = `Hi Tadka House,
+
+I'd like to reserve a table.
+
+Name: ${form.name}
+Phone: ${form.phone}
+Date: ${form.date}
+Time: ${form.time}
+Guests: ${form.guests}
+
+Special Request:
+${form.message}`;
+
+    window.open(
+      `https://wa.me/918275188287?text=${encodeURIComponent(text)}`,
+      "_blank"
+    );
+  };
+
   return (
-    <section className="relative py-24 md:py-32 section-pad overflow-hidden">
-      <div className="relative rounded-3xl overflow-hidden">
-        {/* Background */}
-        <div className="absolute inset-0">
-          <img
-            src="https://images.pexels.com/photos/1581384/pexels-photo-1581384.jpeg"
-            alt="Reserve a table"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-ink-base/80" />
-          <div className="absolute inset-0 bg-gradient-to-r from-ink-base via-ink-base/50 to-transparent" />
-        </div>
+    <section className="min-h-screen bg-[#0E0E0E] pt-36 pb-20 px-6">
+      <div className="max-w-2xl mx-auto">
 
-        {/* Content */}
-        <div className="relative p-10 md:p-16 lg:p-20">
-          <div className="max-w-xl">
-            <Reveal>
-              <p className="eyebrow mb-4">Reservations</p>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <h2 className="heading-lg mb-6">
-                Reserve Your <span className="gold-text italic">Evening</span>
-              </h2>
-            </Reveal>
-            <Reveal delay={0.2}>
-              <p className="text-muted text-lg leading-relaxed mb-8">
-                Whether it is a family gathering, a birthday celebration, or an intimate
-                dinner for two — let us craft an evening you will remember.
-              </p>
-            </Reveal>
-            <Reveal delay={0.3}>
-              <div className="flex flex-wrap gap-4 mb-8">
-                <div className="flex items-center gap-2 text-sm text-white/70">
-                  <Clock className="w-4 h-4 text-gold" />
-                  {RESTAURANT.hours}
-                </div>
-                <div className="flex items-center gap-2 text-sm text-white/70">
-                  <Users className="w-4 h-4 text-gold" />
-                  Family & Group Friendly
-                </div>
-              </div>
-            </Reveal>
-            <Reveal delay={0.4}>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/reservations" className="btn-gold">
-                  <Calendar className="w-4 h-4" />
-                  Book a Table
-                </Link>
-                <a href={`tel:${RESTAURANT.phoneRaw}`} className="btn-outline">
-                  <Phone className="w-4 h-4" />
-                  {RESTAURANT.phone}
-                </a>
-              </div>
-            </Reveal>
+        <h1 className="text-5xl font-bold text-center text-white mb-3">
+          Reserve Your Table
+        </h1>
+
+        <p className="text-center text-gray-400 mb-10">
+          Reserve your dining experience in just a few seconds.
+        </p>
+
+        <div className="bg-[#1A1A1A] rounded-3xl p-8 border border-yellow-600/20 space-y-5">
+
+          <div>
+            <label className="text-gray-300">Full Name</label>
+            <input
+              className="w-full mt-2 p-4 rounded-xl bg-[#111] text-white"
+              value={form.name}
+              onChange={(e)=>setForm({...form,name:e.target.value})}
+            />
           </div>
+
+          <div>
+            <label className="text-gray-300">Phone Number</label>
+            <input
+              className="w-full mt-2 p-4 rounded-xl bg-[#111] text-white"
+              value={form.phone}
+              onChange={(e)=>setForm({...form,phone:e.target.value})}
+            />
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-5">
+
+            <div>
+              <label className="text-gray-300">Date</label>
+              <input
+                type="date"
+                className="w-full mt-2 p-4 rounded-xl bg-[#111] text-white"
+                value={form.date}
+                onChange={(e)=>setForm({...form,date:e.target.value})}
+              />
+            </div>
+
+            <div>
+              <label className="text-gray-300">Time</label>
+              <input
+                type="time"
+                className="w-full mt-2 p-4 rounded-xl bg-[#111] text-white"
+                value={form.time}
+                onChange={(e)=>setForm({...form,time:e.target.value})}
+              />
+            </div>
+
+          </div>
+
+          <div>
+            <label className="text-gray-300">Guests</label>
+
+            <select
+              className="w-full mt-2 p-4 rounded-xl bg-[#111] text-white"
+              value={form.guests}
+              onChange={(e)=>setForm({...form,guests:e.target.value})}
+            >
+              {[1,2,3,4,5,6,7,8,9,10].map(g=>(
+                <option key={g}>{g}</option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label className="text-gray-300">Special Request</label>
+
+            <textarea
+              rows={4}
+              className="w-full mt-2 p-4 rounded-xl bg-[#111] text-white"
+              value={form.message}
+              onChange={(e)=>setForm({...form,message:e.target.value})}
+            />
+          </div>
+
+          <button
+            onClick={submit}
+            className="w-full py-4 rounded-xl bg-yellow-500 hover:bg-yellow-400 transition text-black font-semibold text-lg"
+          >
+            Reserve on WhatsApp
+          </button>
+
         </div>
       </div>
     </section>

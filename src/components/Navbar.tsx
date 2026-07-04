@@ -69,9 +69,14 @@ export default function Navbar() {
               <Phone className="w-4 h-4" />
               <span className="hidden xl:inline">{RESTAURANT.phone}</span>
             </a>
-            <Link to="/reservations" className="btn-gold !py-2.5 !px-6 text-sm">
-              Reserve Table
-            </Link>
+           <a
+  href={RESTAURANT.whatsapp}
+  target="_blank"
+  rel="noopener noreferrer"
+  className="btn-gold !py-2.5 !px-6 text-sm"
+>
+  Reserve Table
+</a>
           </div>
 
           <button
@@ -123,9 +128,14 @@ export default function Navbar() {
                 </motion.li>
               ))}
             </ul>
-            <Link to="/reservations" className="btn-gold mt-10">
-              Reserve a Table
-            </Link>
+            <a
+  href={RESTAURANT.whatsapp}
+  target="_blank"
+  rel="noopener noreferrer"
+  className="btn-gold !py-2.5 !px-6 text-sm"
+>
+  Reserve Table
+</a>
           </motion.div>
         )}
       </AnimatePresence>

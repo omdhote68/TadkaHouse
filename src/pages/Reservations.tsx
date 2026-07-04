@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { User, Phone, Users, Calendar, Clock, MessageSquare, Check, Loader2 } from 'lucide-react';
 import PageHeader from '../components/PageHeader';
 import Reveal from '../components/Reveal';
-import { supabase } from '../lib/supabase';
+
 import { RESTAURANT } from '../data/content';
 
 const TIME_SLOTS = [
@@ -23,29 +23,44 @@ export default function Reservations() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setStatus('loading');
-    setErrorMsg('');
+ const handleSubmit = (e: React.FormEvent) => {
+  e.preventDefault();
 
-    const { error } = await supabase.from('reservations').insert({
-      name: form.name,
-      phone: form.phone,
-      guests: parseInt(form.guests),
-      date: form.date,
-      time: form.time,
-      special_request: form.special_request || null,
+  setStatus("loading");
+
+  const message = `🍽️ *New Table Reservation*
+
+👤 Name: ${form.name}
+📞 Phone: ${form.phone}
+👥 Guests: ${form.guests}
+📅 Date: ${form.date}
+🕒 Time: ${form.time}
+
+📝 Special Request:
+${form.special_request || "None"}
+
+Thank you!`;
+
+  const whatsappUrl = `https://wa.me/${RESTAURANT.phoneRaw.replace(
+    /\D/g,
+    ""
+  )}?text=${encodeURIComponent(message)}`;
+
+  setTimeout(() => {
+    window.open(whatsappUrl, "_blank");
+
+    setStatus("success");
+
+    setForm({
+      name: "",
+      phone: "",
+      guests: "2",
+      date: "",
+      time: "",
+      special_request: "",
     });
-
-    if (error) {
-      setStatus('error');
-      setErrorMsg('Something went wrong. Please try again or call us directly.');
-    } else {
-      setStatus('success');
-      setForm({ name: '', phone: '', guests: '2', date: '', time: '', special_request: '' });
-    }
-  };
-
+  }, 500);
+};
   const today = new Date().toISOString().split('T')[0];
 
   return (
